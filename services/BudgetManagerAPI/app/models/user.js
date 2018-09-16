@@ -35,3 +35,14 @@ Schema.pre('save', function(next) {
         return next();
     }
 });
+
+Schema.methods.comparePassword = function (password, callback) {
+    bcrypt.compare(password, this.password, (error, matches) => {
+        if(error) {
+            return callback(error);
+        }
+        callback(null, matches);
+    });
+};
+
+mongoose.model('User',Schema);
